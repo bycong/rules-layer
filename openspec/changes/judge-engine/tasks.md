@@ -11,11 +11,11 @@
 
 ## 2. 章字书迁移
 
-- [ ] 2.1 开 change `adopt-jev-judge`：code-style（Python 样板改为引擎文件）与 judgment-rules（引擎位置、配置文件、key 位置）的 MODIFIED 增量；按章字书 gates 跑判断。验证：`openspec validate adopt-jev-judge --strict` 通过；判断无 block。
-- [ ] 2.2 存迁移前输出：`uv run ruff check app ../pipeline`、不联网测试、Jev 回归（含对话评估集若可离线运行的部分）、`judge --change <已归档 change>`、`judge --copy`。验证：输出文件都在。
-- [ ] 2.3 加 `openspec/judge.yaml`；删 `api/app/ai/judge.py`；`openspec/judgments.yaml` 删三条通用规则；`copy-lexicon.yaml` 删已进通用词表的词；`pyproject.toml` 换成可编辑路径依赖并删去 `judge.py` 的 ruff 豁免；`app/core/config.py` 删两个字段；`test_chat_eval.py` 改 import；`test_judge.py` 只留回归；`CLAUDE.md` 命令表与样板路径改用引擎。验证：全仓 grep 无 `app.ai.judge`、`typesafe_api_key`、`judge_provider` 残留。
-- [ ] 2.4 对比迁移前后：ruff 通过；不联网测试通过；Jev 回归失败集合与迁移前相同；`jev-judge --change`、`--copy` 输出与迁移前相同。验证：对比结果记入 `verification.md`，不同之处逐条说明。
-- [ ] 2.5 删 `api/.env` 中的 key（文件不进仓库，只在本机）；提交章字书。验证：`git log` 有该提交；无 key 的 `api/.env` 下 `jev-judge` 仍用 Jev。
+- [x] 2.1 开 change `adopt-jev-judge`：code-style（Python 样板改为引擎文件）与 judgment-rules（引擎位置、配置文件、key 位置）的 MODIFIED 增量；按章字书 gates 跑判断。验证：`openspec validate adopt-jev-judge --strict` 通过；判断无 block。
+- [x] 2.2 存迁移前输出：`uv run ruff check app ../pipeline`、不联网测试、Jev 回归（含对话评估集若可离线运行的部分）、`judge --change <已归档 change>`、`judge --copy`。验证：输出文件都在。
+- [x] 2.3 加 `openspec/judge.yaml`；删 `api/app/ai/judge.py`；`openspec/judgments.yaml` 删三条通用规则；`copy-lexicon.yaml` 删已进通用词表的词；`pyproject.toml` 换成可编辑路径依赖并删去 `judge.py` 的 ruff 豁免；`app/core/config.py` 删两个字段；`test_chat_eval.py` 改 import；`test_judge.py` 只留回归；`CLAUDE.md` 命令表与样板路径改用引擎。验证：全仓 grep 无 `app.ai.judge`、`typesafe_api_key`、`judge_provider` 残留。
+- [x] 2.4 对比迁移前后：ruff 通过；不联网测试通过；Jev 回归失败集合与迁移前相同；`jev-judge --change`、`--copy` 输出与迁移前相同。验证：对比结果记入 `verification.md`，不同之处逐条说明。
+- [x] 2.5 删 `api/.env` 中的 key（文件不进仓库，只在本机）；提交章字书。验证：`git log` 有该提交；无 key 的 `api/.env` 下 `jev-judge` 仍用 Jev。
 
 ## 3. Divination 迁移（等 CI 能检出 rules-layer 后进行）
 

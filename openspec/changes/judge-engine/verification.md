@@ -41,3 +41,40 @@
 `~/.config/jev-judge/env`（权限 600，目录 700）写入 key，从章字书 `api/.env` 复制，不经过任何输出。rules-layer 根目录 `jev-judge --change judge-engine`：Jev 判定，pass 4（本仓库无项目规则，只跑三条通用规则 + 产物格式 lint）。章字书 `api/` 下 `env -u TYPESAFE_API_KEY jev-judge --change adopt-shared-rules`：Jev 判定，pass 8（通用 3 条 + 四条红线 + lint）。本仓库 `git grep "TYPESAFE_API_KEY="` 只命中任务描述与测试里的假值。
 
 与章字书原引擎相比，输出有两处预期内的差别，留待 2.4 对比时说明：通用规则先加载，`design-no-speculative-extension` 排到红线规则之前（只是显示顺序）；原章字书引擎没把 `lint/design` 的 pass 计入合计，合并后以 Divination 版为准计入，合计多 1。
+
+## 2. 章字书迁移
+
+在章字书分支 `chore/adopt-jev-judge` 上进行（先把另一个会话已完成的 `chore/ruff-base-v0.2` 快进合入 main；先归档 `adopt-shared-rules`，避免两个未归档 change 修改同一条 code-style 需求）。章字书提交 `0932630`。
+
+### 2.1 章字书 change `adopt-jev-judge`
+
+三份规格增量：code-style（Python 样板改为共享引擎）、judgment-rules（规则来源、key 位置、命令与文案配置）、chat-eval（实施时发现该规格也写着旧命令 `python -m app.ai.judge`，补进来）。`openspec validate --strict` 通过；用共享引擎跑 gates：pass 8 / block 0。
+
+### 2.2 迁移前输出（`verification/zhangzishu-before/`）
+
+ruff 通过；不联网测试 131 passed；Jev 回归 29 passed / 9 failed（9 条为已知的旧路径用例）；`--change archive/2026-10-28-portrait-fallback` 合计 pass 7；`--copy` 无待审文案。
+
+### 2.3 改动
+
+删 `api/app/ai/judge.py`；`pyproject.toml` 去掉 `judge` 依赖组、加可编辑路径依赖 `jev-judge`、删 `judge.py` 的 ruff 豁免；`config.py` 删 `typesafe_api_key`、`judge_provider`；`test_chat_eval.py` 改为 `from jev_judge import judge`，`settings.typesafe_api_key` 改为 `judge.api_key()`；`test_judge.py` 只留「本项目规则 enforces 有效」「本项目 design 过 lint」与 Jev 回归；新增 `openspec/judge.yaml`；`judgments.yaml` 删三条通用规则；词表删 15 个已进通用词表的标签；`CLAUDE.md` 命令表与样板、`api/README.md` 判断层用法改为 `jev-judge`。
+
+实施中发现：章字书的 `Settings`（pydantic-settings）读 `api/.env`，默认不允许未声明的变量。删字段而 `.env` 仍有 `TYPESAFE_API_KEY` 会让 API 启动报错，所以把「删 `.env` 里的 key」从最后一步提前到与删字段同时做（key 已在 `~/.config/jev-judge/env`）。改后 `from app.main import app` 正常。
+
+全仓 grep `typesafe_api_key`、`judge_provider`、`app.ai.judge`、`judge.settings`：只剩两份主规格（chat-eval、code-style）里的旧文字，由 `adopt-jev-judge` 的增量在归档时更新。
+
+### 2.4 迁移前后对比（`verification/zhangzishu-after/`）
+
+| 检查 | 迁移前 | 迁移后 | 说明 |
+|---|---|---|---|
+| ruff | 通过 | 通过 | |
+| 不联网测试 | 131 passed | 112 passed | 少的 19 条是引擎测试，已在 rules-layer 覆盖（36 条） |
+| Jev 回归 | 29 / 9 failed | 29 / 9 failed | 失败集合逐条相同 |
+| `--change` 每条规则判定 | 8 条（含 lint） | 8 条 | 逐条相同；合计 pass 7 → 8 是因为共享引擎把 `lint/design` 计入合计（预期差别）；规则显示顺序不同（预期差别） |
+| `--copy` | 无待审文案 | 无待审文案 | |
+| 判断命令 | `python -m app.ai.judge` | `jev-judge`，裁判 jev | key 读自 `~/.config/jev-judge/env` |
+
+### 2.5 key
+
+`api/.env` 已无 `TYPESAFE_API_KEY`；`jev-judge` 仍以 jev 裁判运行。
+
+注：`judge/pyproject.toml` 的包版本仍写 `0.2.0`，而引擎发布用的 tag 是 `v0.3.0`（编号因与 `ruff-base-more-rules` 撞号而后移）；下次打 tag 前把包版本改为与 tag 一致。

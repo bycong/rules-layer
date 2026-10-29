@@ -1,0 +1,21 @@
+裁判：jev，模型 jev-1.14.0
+
+## proposal.md
+  pass   proposal-states-non-goals                  p=0.97
+
+## design.md
+  pass   lint/design                                Risks 格式与回滚说明齐全
+  pass   design-decisions-have-alternatives         p=0.90
+  pass   design-no-speculative-extension            p=0.90
+  pass   design-no-runtime-yaml                     p=0.95
+  pass   design-no-deferred-infra                   p=0.98
+  pass   design-no-pages-for-unlisted               p=0.97
+  pass   design-svg-canonical                       p=0.94
+
+## tasks.md
+  （无适用规则）
+
+## specs/home-era-axis/spec.md
+  （无适用规则）
+
+合计：pass 8 / review 0 / block 0
