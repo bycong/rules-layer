@@ -1,0 +1,7 @@
+# ruff 基础规则：代码写法的机械部分（rules/code-style.md）。项目用 extend 继承，只写自己的豁免并注明原因，不写 select。
+
+[lint]
+select = ["ERA001", "T201", "BLE001", "C901"]   # 注释掉的代码 / print / 过宽 except / 圈复杂度
+
+[lint.mccabe]
+max-complexity = 10
