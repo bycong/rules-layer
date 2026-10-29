@@ -28,7 +28,7 @@
 ## 4. 收尾
 
 - [x] 4.1 对照 design「改动文件与估计行数」，超出一倍的写明原因。验证：`verification.md` 有对照表。
-- [ ] 4.2 按本仓库 gates 跑写完代码后的检查：`/simplify` 引擎与测试、ruff、引擎测试。验证：完成汇报逐项列出结果。
+- [x] 4.2 按本仓库 gates 跑写完代码后的检查：`/simplify` 引擎与测试、ruff、引擎测试。验证：完成汇报逐项列出结果。
 
 ## Workflow follow-up
 

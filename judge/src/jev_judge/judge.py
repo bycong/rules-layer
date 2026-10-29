@@ -50,13 +50,18 @@ def root() -> Path:
     return path
 
 
+def _yaml(path: Path, default: Any) -> Any:
+    """读一个 yaml 文件；文件为空时返回 default。"""
+    return yaml.safe_load(path.read_text(encoding="utf-8")) or default
+
+
 @cache
 def config() -> dict[str, Any]:
     """项目的 openspec/judge.yaml；没有这个文件当作空配置，只审 change 的项目用不到它。"""
     path = root() / "openspec/judge.yaml"
     if not path.exists():
         return {}
-    return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    return _yaml(path, {})
 
 
 def copy_config() -> tuple[str, str, str | None]:
@@ -120,7 +125,7 @@ def enforces_exists(ref: str) -> bool:
         heads = re.findall(r"^##\s+(.+)$", (root() / "CLAUDE.md").read_text(encoding="utf-8"), re.M)
         return any(h.startswith(name) for h in heads)
     if kind == "L1":
-        cfg = yaml.safe_load((root() / "openspec/config.yaml").read_text(encoding="utf-8")) or {}
+        cfg = _yaml(root() / "openspec/config.yaml", {})
         # context 是单独一段，其余产物名都在 rules 下面
         if name == "context":
             return bool(cfg.get("context"))
@@ -132,10 +137,6 @@ def enforces_exists(ref: str) -> bool:
     return False
 
 
-def _rule_items(path: Path) -> list[dict[str, Any]]:
-    return yaml.safe_load(path.read_text(encoding="utf-8")) or []
-
-
 def load_rules(path: Path | None = None) -> list[Rule]:
     """通用规则 + 项目规则（默认项目的 openspec/judgments.yaml），同 id 以项目为准。
 
@@ -143,9 +144,9 @@ def load_rules(path: Path | None = None) -> list[Rule]:
     """
     # 1. 合并：先通用后项目，项目同 id 覆盖通用、位置不变
     project = path or root() / "openspec/judgments.yaml"
-    items = {item["id"]: item for item in _rule_items(BASE / "judgments.yaml")}
+    items = {item["id"]: item for item in _yaml(BASE / "judgments.yaml", [])}
     if project.exists():
-        items.update({item["id"]: item for item in _rule_items(project)})
+        items.update({item["id"]: item for item in _yaml(project, [])})
 
     # 2. 逐条校验
     rules: list[Rule] = []
@@ -164,7 +165,11 @@ def load_rules(path: Path | None = None) -> list[Rule]:
 # ---------- 3. 三段判定 ----------
 
 def verdict(rule: Rule, value: float, confidence: float | None) -> tuple[Verdict, str]:
-    """把模型数值翻成 (结果, 一句原因)。"""
+    """把模型数值翻成 (结果, 一句原因)。
+
+    p 达到 pass 阈值为 pass，低于 block 阈值为 block，其余为 review，原因写 p 值；
+    score 规则置信度低于 min_confidence 时不看分数，一律 review，原因写「置信度不足」。
+    """
     if rule.type == "noul":
         p = value if rule.expect else 1 - value             # expect=false 的违规检查：模型说「没有」才是好事
     else:
@@ -195,10 +200,11 @@ def api_key() -> str:
 
 def pick_provider() -> str:
     """jev | manual。未指定时有 key 走 jev；指定 jev 却没 key 直接报错，不悄悄退化。"""
-    name = setting("JUDGE_PROVIDER") or ("jev" if api_key() else "manual")
+    key = api_key()
+    name = setting("JUDGE_PROVIDER") or ("jev" if key else "manual")
     if name not in ("jev", "manual"):
         sys.exit(f"✗ JUDGE_PROVIDER={name!r} 无效，只支持 jev 或 manual")
-    if name == "jev" and not api_key():
+    if name == "jev" and not key:
         sys.exit(f"✗ JUDGE_PROVIDER=jev 但缺少 TYPESAFE_API_KEY：请设置环境变量，或写入 {USER_ENV}")
     return name
 
@@ -310,8 +316,7 @@ def label_len(text: str) -> int:
 
 
 def _labels(path: Path) -> set[str]:
-    doc = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    return set(doc.get("labels") or [])
+    return set(_yaml(path, {}).get("labels") or [])
 
 
 def lexicon() -> set[str]:
@@ -349,7 +354,10 @@ def _flatten(d: dict, prefix: str = "") -> dict[str, str]:
     out: dict[str, str] = {}
     for k, v in d.items():
         key = f"{prefix}.{k}" if prefix else k
-        out.update(_flatten(v, key) if isinstance(v, dict) else {key: v})
+        if isinstance(v, dict):
+            out.update(_flatten(v, key))
+        else:
+            out[key] = v
     return out
 
 
@@ -375,9 +383,8 @@ def parse_copy(text: str, fmt: str, lang: str | None) -> dict[str, str]:
     return extract_i18n(text, lang)
 
 
-def changed_copy() -> dict[str, str]:
-    """文案相对 main 新增或修改的条目。main 上没有这个文件时，全部算新增。"""
-    file, fmt, lang = copy_config()
+def changed_copy(file: str, fmt: str, lang: str | None) -> dict[str, str]:
+    """文案相对 main 新增或修改的条目（参数取自 copy_config()）。main 上没有这个文件时，全部算新增。"""
     base = subprocess.run(["git", "show", f"main:{file}"], cwd=root(), capture_output=True, text=True).stdout
     old = parse_copy(base, fmt, lang) if base else {}
     new = parse_copy((root() / file).read_text(encoding="utf-8"), fmt, lang)
@@ -423,11 +430,11 @@ def run_change(name: str, rules: list[Rule], judge: Judge | None) -> list[Verdic
 
 def run_copy(rules: list[Rule], judge: Judge | None) -> list[Verdict]:
     # 1. 取相对 main 的新增与修改
-    entries = changed_copy()
+    file, fmt, lang = copy_config()
+    entries = changed_copy(file, fmt, lang)
     if not entries:
         print("无待审文案")
         return []
-    file, fmt, lang = copy_config()
     where = file if fmt == "json" else f"{file} I18N[{lang}]"
     print(f"\n## {where}（相对 main 新增或修改 {len(entries)} 条）")
 

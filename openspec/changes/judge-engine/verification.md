@@ -141,3 +141,11 @@ PR #122 的 CI：backend-tests、frontend-lint 均 success（`pip install -r req
 | | `openspec/judgments.yaml` | −25 | +3 −28 | |
 | | `.github/workflows/ci.yml` | +2 | ±4 | 两个 job 各改 ref 与注释 |
 | | `CLAUDE.md`、`backend/README.md`、`.env.example` | ±4 | ±12、−4 | README 与 `.env.example` 估计时未单列 |
+
+### 4.2 写完代码后的检查
+
+1. `/simplify`：对 `judge.py`、`__init__.py`、`test_engine.py` 跑四路审查（复用、精简、效率、层级）。采纳：「读 yaml 或给默认值」四处合成 `_yaml()`；`run_copy` 只算一次 `copy_config()` 再传给 `changed_copy`（非公开函数，签名改为带参数）；`pick_provider` 只读一次 key；`_flatten` 改成普通 if/else；`verdict` 说明写清三种结果与置信度不足的情况；测试抽出 `_commit`、`_user_env` 辅助函数。跳过：`enforces_exists` 每条规则重读文件（几十次读取，可忽略；加缓存要在测试间清缓存）；文案请求改并发（改变请求方式，需另行验证）；I18N 标记缺失、`lang` 写错时改为友好报错（改变失败时的行为，本次只做不改行为的精简）；`main` 分支名配置化（两个项目都用 `main`，第 9 条）。
+2. ruff：`judge/` 通过。
+3. 测试：引擎 36 条通过；章字书不联网 112 条通过；Divination 判断层测试通过；两个项目 `jev-judge --copy --lint-only` 正常。
+4. 前端 lint、文案检查：本仓库无前端与界面文案，跳过。
+5. 额外步骤（改了引擎后在两个项目复核）：即第 3 条。

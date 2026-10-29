@@ -35,6 +35,10 @@ def _git(cwd: Path, *args: str) -> None:
     subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True)
 
 
+def _commit(root: Path, *args: str) -> None:
+    _git(root, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", *args)
+
+
 def _write(root: Path, rel: str, text: str) -> None:
     path = root / rel
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -51,7 +55,7 @@ def project(tmp_path, monkeypatch):
     _write(root, "openspec/copy-lexicon.yaml", "labels:\n  - 待收录\n")
     _write(root, "api/README.md", "子目录\n")
     _git(root, "init", "-q", "-b", "main")
-    _git(root, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "--allow-empty", "-m", "init")
+    _commit(root, "--allow-empty", "-m", "init")
     monkeypatch.chdir(root / "api")
     monkeypatch.setattr(judge, "USER_ENV", tmp_path / "no-such-env")
     monkeypatch.delenv("TYPESAFE_API_KEY", raising=False)
@@ -65,7 +69,7 @@ def project(tmp_path, monkeypatch):
 
 def _commit_all(root: Path) -> None:
     _git(root, "add", "-A")
-    _git(root, "-c", "user.email=t@t", "-c", "user.name=t", "commit", "-q", "-m", "x")
+    _commit(root, "-m", "x")
 
 
 # ---------- 2. 项目根 ----------
@@ -109,9 +113,9 @@ def test_project_rule_overrides_base_by_id(project):
   expect: true
   thresholds: { pass: 0.7, block: 0.5 }
 """)
-    rules = {r.id: r for r in judge.load_rules()}
-    assert rules["design-decisions-have-alternatives"].thresholds.block == 0.5
-    assert [r.id for r in judge.load_rules()].count("design-decisions-have-alternatives") == 1
+    rules = judge.load_rules()
+    assert [r.id for r in rules].count("design-decisions-have-alternatives") == 1
+    assert _rules(project)["design-decisions-have-alternatives"].thresholds.block == 0.5
 
 
 def test_project_without_rules_file_uses_base_only(project):
@@ -232,7 +236,7 @@ def test_unknown_change_exits(project):
 
 def test_copy_without_config_exits(project):
     with pytest.raises(SystemExit) as e:
-        judge.changed_copy()
+        judge.copy_config()
     assert "copy.file" in str(e.value)
 
 
@@ -248,7 +252,7 @@ def test_json_copy_changed_against_main(project):
     _write(project, "web/zh.json", json.dumps({"a": {"b": "旧"}, "c": "不变"}, ensure_ascii=False))
     _commit_all(project)
     _write(project, "web/zh.json", json.dumps({"a": {"b": "新"}, "c": "不变", "d": "加"}, ensure_ascii=False))
-    assert judge.changed_copy() == {"a.b": "新", "d": "加"}
+    assert judge.changed_copy(*judge.copy_config()) == {"a.b": "新", "d": "加"}
 
 
 I18N = """<script>
@@ -262,7 +266,7 @@ const I18N = {
 def test_js_i18n_copy_reads_one_lang_and_skips_arrays(project):
     _write(project, "openspec/judge.yaml", "copy: {file: index.html, format: js-i18n, lang: zh-Hans}\n")
     _write(project, "index.html", I18N)
-    assert judge.changed_copy() == {"title": "易经", "go": "开始"}       # main 上没有这个文件，全部算新增
+    assert judge.changed_copy(*judge.copy_config()) == {"title": "易经", "go": "开始"}       # main 上没有这个文件，全部算新增
 
 
 def test_long_copy_without_copy_rule_goes_review(project, capsys):
@@ -287,18 +291,21 @@ def test_jev_without_key_exits(project, monkeypatch):
     assert "TYPESAFE_API_KEY" in str(e.value)
 
 
-def test_key_read_from_user_env_file(project, tmp_path, monkeypatch):
+def _user_env(tmp_path: Path, monkeypatch, text: str) -> None:
+    """把 ~/.config/jev-judge/env 换成临时文件。"""
     env = tmp_path / "env"
-    env.write_text("# key\nTYPESAFE_API_KEY=\"abc\"\n", encoding="utf-8")
+    env.write_text(text, encoding="utf-8")
     monkeypatch.setattr(judge, "USER_ENV", env)
+
+
+def test_key_read_from_user_env_file(project, tmp_path, monkeypatch):
+    _user_env(tmp_path, monkeypatch, "# key\nTYPESAFE_API_KEY=\"abc\"\n")
     assert judge.api_key() == "abc"
     assert judge.pick_provider() == "jev"
 
 
 def test_env_var_wins_over_user_env_file(project, tmp_path, monkeypatch):
-    env = tmp_path / "env"
-    env.write_text("TYPESAFE_API_KEY=file\n", encoding="utf-8")
-    monkeypatch.setattr(judge, "USER_ENV", env)
+    _user_env(tmp_path, monkeypatch, "TYPESAFE_API_KEY=file\n")
     monkeypatch.setenv("TYPESAFE_API_KEY", "var")
     assert judge.api_key() == "var"
 
