@@ -21,7 +21,7 @@
 **Non-Goals:**
 - 不改任何 `judge.py`；不建通用词表（见 `judge-engine`）。
 - 不把共享配置发布成 npm 包或 Python 包。
-- 不处理项目被单独 clone 到别处时的引用（只在巡检里报告缺失）。
+- 不处理项目被单独 clone 到别处时的引用（只在巡检里报告缺失）。例外是 CI，见 Risks 第一条。
 
 ## Decisions
 
@@ -86,6 +86,7 @@ Divination 是共享版的来源，文案档位描述不变，迁移只改引用
 
 ## Risks / Trade-offs
 
+- [CI 只检出项目自己的仓库，`extend` 与 import 指向的 `../rules-layer` 不存在，ruff 与 ESLint 直接报错，CI 变红；规划时只考虑了 CLAUDE.md 读不到正文，漏了这一条，实施后才由 Divination 的 CI 暴露] → rules-layer 建为公开仓库 `bycong/rules-layer`；项目 CI 检出指定 tag 到工作目录，再软链到工作目录上一级；升级共享规则时在 CI 里改 tag
 - [项目单独 clone 到别处时 `@../rules-layer` 找不到，AI 读不到九条] → 引入缺失在会话中可见；`rules-layer-setup` 巡检报告缺失；本 change 不处理这种情况
 - [Claude Code 首次读项目外文件时弹确认框，未同意则规矩不生效] → 迁移每个项目后开一次会话确认已同意，并检查上下文含九条正文
 - [章字书改用共享档位描述后文案打分口径变化] → 迁移后重跑文案回归，差异逐条报告由用户决定改期望还是调描述

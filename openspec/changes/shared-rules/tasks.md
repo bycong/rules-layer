@@ -48,3 +48,4 @@
 - 已移到 Divination 本地分支 `chore/adopt-rules-layer`（并补上主 specs 同步与 Purpose），本地验证：ruff、ESLint、离线测试、判断层均通过。
 - 未推送原因：Divination 有 CI（ruff + ESLint），CI 只检出本仓库，找不到 `../rules-layer`。本 change 的 proposal 把 CI 列为不做；章字书没有 CI，所以没暴露。
 - 待办：rules-layer 建 GitHub 远端后，Divination CI 增加检出步骤，再推 `chore/adopt-rules-layer`。负责人 2026-10-29 决定暂不接 CI。
+- 更新（2026-10-29 晚）：负责人决定建远端。`rules-layer` 已建为公开仓库 https://github.com/bycong/rules-layer ，打 tag `v0.1.0`。下一步：Divination CI 检出 `bycong/rules-layer@v0.1.0` 并软链到工作目录上一级，再推 `chore/adopt-rules-layer`。

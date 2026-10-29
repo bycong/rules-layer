@@ -143,3 +143,9 @@ ruff All checks passed；`pnpm lint` 退出码 0；判断 lint（`archive/2026-1
 4. 前端 lint：两个项目输出与迁移前逐字相同。
 5. 文案检查：两个项目 `--copy --lint-only` 无待审文案（本次没有改界面文案文件）。
 6. 额外步骤：Divination 的 e2e 交互回归跳过，本次没有改 `frontend/index.html`；rules-layer 的额外步骤（改了 `lint/` 后在两个项目复核）即上面第 1、4 条。
+
+## 5. 上线前发现：CI 找不到 rules-layer
+
+Divination 的 CI（`.github/workflows/ci.yml`）在仓库内跑 `ruff check` 与 `npm run lint`，只检出本仓库；迁移后两者分别通过 `extend` 与 import 依赖 `../rules-layer`，在 CI 上会直接报错。design 只把「项目单独 clone 时 CLAUDE.md 读不到正文」列为不处理，漏了 CI 这种后果更重的情况。章字书没有 CI，所以没暴露。
+
+处理：rules-layer 建为公开仓库 https://github.com/bycong/rules-layer ，tag `v0.1.0`（推送前把检查输出里的本机绝对路径换成 `~`，并改写了尚未推送的历史，历史中不再含本机路径）。Divination 的迁移提交在本地分支 `chore/adopt-rules-layer` 上，等 CI 接好 rules-layer 后再推。design 的 Risks 已补上这一条。
