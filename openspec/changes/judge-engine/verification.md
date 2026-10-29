@@ -78,3 +78,31 @@ ruff 通过；不联网测试 131 passed；Jev 回归 29 passed / 9 failed（9 �
 `api/.env` 已无 `TYPESAFE_API_KEY`；`jev-judge` 仍以 jev 裁判运行。
 
 注：`judge/pyproject.toml` 的包版本仍写 `0.2.0`，而引擎发布用的 tag 是 `v0.3.0`（编号因与 `ruff-base-more-rules` 撞号而后移）；下次打 tag 前把包版本改为与 tag 一致。
+
+## 3. Divination 迁移
+
+前提：Divination 已由另一个会话接入 rules-layer（#120，CI 钉 `v0.2.0`、软链，最近 3 次 CI success）。在分支 `chore/adopt-jev-judge` 上进行，PR #122。
+
+### 3.1 Divination change `adopt-jev-judge`
+
+三份规格增量：code-style（Python 样板）、judgment-rules（规则来源、key 位置、命令与文案配置；`I18N 块提取失败` 场景保留原名、内容改为 JSON5 解析位置——OpenSpec 不允许在 MODIFIED 中删改场景名）、copy-voice（叙事禁词改由 `openspec/judge.yaml` 配置）。用共享引擎跑 gates：pass 9 / block 0（五条红线均 pass）。核对 design 风险：CI 先检出 rules-layer 与软链、后装依赖；Render 只读 `requirements.txt`。
+
+### 3.2 迁移前输出（`verification/divination-before/`）
+
+ruff、ESLint 通过；不联网测试 689 通过；Jev 回归 30/30；`--change archive/2026-10-29-rules-layer`：8 pass / 1 review（`design-decisions-have-alternatives` p=0.55）；`--copy` 无待审文案。
+
+### 3.3 改动
+
+删 `backend/app/rules/judge.py` 与只为它存在的 `backend/app/rules/__init__.py`；新增 `openspec/judge.yaml`；`judgments.yaml` 删三条通用规则；词表删「知道了」「提交」；`requirements-dev.txt` 去掉 `typesafe-sdk`、`json5`，加 `-e ../../rules-layer/judge`；`ruff.toml` 删 `judge.py` 豁免；CI 两个 job 的 rules-layer 升到 `v0.3.0`；`test_judge.py` 只留本项目测试（enforces、用例对应规则、叙事禁词、本项目 design 过 lint、现网 I18N 可提取）与 Jev 回归；`CLAUDE.md`、`backend/README.md`、`.env.example` 改用 `jev-judge`；`backend/.env` 删 `TYPESAFE_API_KEY`、`JUDGE_PROVIDER` 两行（本机文件，不进仓库）。
+
+实施中的失误：Divination 的 `.venv` 是 uv 建的、没有 pip，激活后 `pip install -r requirements-dev.txt` 实际用了 PATH 上 `miniforge3` 的 pip，把 51 个包装进了 miniforge base 环境（Python 3.13）。其中原本由 conda 管理且被覆盖的只有 `idna`（3.17 → 3.20）；其余 49 个无法区分是新装还是改了版本。已改用 `uv pip install --python .venv/bin/python -r requirements-dev.txt` 装进 Divination 自己的虚拟环境；base 环境如何恢复由用户决定。
+
+### 3.4 迁移前后对比（`verification/divination-after/`）
+
+| 检查 | 迁移前 | 迁移后 | 说明 |
+|---|---|---|---|
+| ruff / ESLint | 通过 | 通过 | |
+| 不联网测试 | 689 | 667 | 少的 22 条是引擎测试，已在 rules-layer |
+| Jev 回归 | 30/30 | 30/30 | |
+| `--change` 每条判定 | 8 pass / 1 review | 相同 | review 那条 p=0.55 → 0.53，迁移前就是 review |
+| `--copy` | 无待审文案 | 无待审文案 | |

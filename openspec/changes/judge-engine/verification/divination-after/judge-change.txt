@@ -1,0 +1,28 @@
+裁判：jev，模型 jev-1.14.0
+
+## proposal.md
+  pass   proposal-states-non-goals                  p=0.98
+
+## design.md
+  pass   lint/design                                Risks 格式与回滚说明齐全
+  review design-decisions-have-alternatives         p=0.53
+  pass   design-no-speculative-extension            p=0.79
+  pass   design-engine-owns-facts                   p=0.96
+  pass   design-no-mixed-schools                    p=0.96
+  pass   design-anonymous-analytics                 p=0.97
+  pass   design-no-account-for-askers               p=0.98
+  pass   design-no-free-reading-gate                p=0.98
+
+## tasks.md
+  （无适用规则）
+
+## specs/code-style/spec.md
+  （无适用规则）
+
+## specs/copy-voice/spec.md
+  （无适用规则）
+
+## specs/judgment-rules/spec.md
+  （无适用规则）
+
+合计：pass 8 / review 1 / block 0
