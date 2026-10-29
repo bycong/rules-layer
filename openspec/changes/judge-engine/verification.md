@@ -106,3 +106,38 @@ ruff、ESLint 通过；不联网测试 689 通过；Jev 回归 30/30；`--change
 | Jev 回归 | 30/30 | 30/30 | |
 | `--change` 每条判定 | 8 pass / 1 review | 相同 | review 那条 p=0.55 → 0.53，迁移前就是 review |
 | `--copy` | 无待审文案 | 无待审文案 | |
+
+PR #122 的 CI：backend-tests、frontend-lint 均 success（`pip install -r requirements-dev.txt` 经软链以 -e 装上引擎）。`backend/.env` 的 key 已在 3.3 删除。
+
+## 4. 收尾
+
+### 4.1 估计行数与实际
+
+| 位置 | 文件 | 估计 | 实际 | 说明 |
+|---|---|---|---|---|
+| rules-layer | `judge/pyproject.toml` | +25 | +28 | |
+| | `judge/src/jev_judge/__init__.py` | +15 | +34 | 超出一倍：导出名在 import 与 `__all__` 各列一遍 |
+| | `judge/src/jev_judge/judge.py` | +440 | +495 | |
+| | `judge/src/jev_judge/base/judgments.yaml` | +35 | +31 | |
+| | `judge/src/jev_judge/base/copy-lexicon.yaml` | +20 | +24 | |
+| | `judge/tests/test_engine.py` | +180 | +321 | 未超一倍；比估计多出配置解析、两种文案格式、key 读取顺序三组测试 |
+| | `CLAUDE.md` | ±10 | +6 −4 | |
+| | `rules/copy-voice.md` | ±4 | ±1 | |
+| 章字书 | `api/app/ai/judge.py` | −365 | −365 | |
+| | `api/app/core/config.py` | −2 | −2 | |
+| | `api/pyproject.toml` | ±6 | +5 −7 | |
+| | `api/tests/test_judge.py` | −110 | +11 −123 | |
+| | `api/tests/eval/test_chat_eval.py` | ±3 | +2 −3 | |
+| | `openspec/judge.yaml` | +4 | +4 | |
+| | `openspec/judgments.yaml` | −25 | +3 −29 | |
+| | `openspec/copy-lexicon.yaml` | −15 | +2 −16 | |
+| | `CLAUDE.md` | ±4 | ±3 | |
+| | `api/README.md` | 未估计 | ±7 | 实施时发现判断层用法写在这里 |
+| Divination | `backend/app/rules/` | −403 | −404 | 含只为引擎存在的 `__init__.py` |
+| | `backend/requirements-dev.txt` | ±3 | +3 −4 | |
+| | `backend/ruff.toml` | −1 | −1 | |
+| | `backend/tests/test_judge.py` | −150 | +16 −153 | |
+| | `openspec/judge.yaml` | +8 | +7 | |
+| | `openspec/judgments.yaml` | −25 | +3 −28 | |
+| | `.github/workflows/ci.yml` | +2 | ±4 | 两个 job 各改 ref 与注释 |
+| | `CLAUDE.md`、`backend/README.md`、`.env.example` | ±4 | ±12、−4 | README 与 `.env.example` 估计时未单列 |

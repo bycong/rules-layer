@@ -22,12 +22,12 @@
 - [x] 3.1 开 change `adopt-jev-judge`（code-style 样板、judgment-rules），跑 gates。验证：`openspec validate --strict` 通过；判断无 block。
 - [x] 3.2 存迁移前输出（ruff、不联网测试、Jev 回归、`--change`、`--copy`）。验证：输出文件都在。
 - [x] 3.3 加 `openspec/judge.yaml`（`frontend/index.html`、js-i18n、`zh-Hans`、八个叙事禁词）；删 `backend/app/rules/judge.py`；`judgments.yaml` 删三条通用规则；`requirements-dev.txt` 改为 `-e ../../rules-layer/judge`；`ruff.toml` 删 `judge.py` 豁免；`test_judge.py` 只留回归；`CLAUDE.md` 命令表与样板路径；CI 在检出 rules-layer 后加 `pip install -e ../rules-layer/judge`。验证：全仓 grep 无 `app.rules.judge` 残留。
-- [ ] 3.4 对比迁移前后（同 2.4），并推送后 CI 通过。验证：对比结果记入 `verification.md`；CI 绿。
-- [ ] 3.5 删 `backend/.env` 中的 key；提交。验证：`git log` 有该提交。
+- [x] 3.4 对比迁移前后（同 2.4），并推送后 CI 通过。验证：对比结果记入 `verification.md`；CI 绿。
+- [x] 3.5 删 `backend/.env` 中的 key；提交。验证：`git log` 有该提交。
 
 ## 4. 收尾
 
-- [ ] 4.1 对照 design「改动文件与估计行数」，超出一倍的写明原因。验证：`verification.md` 有对照表。
+- [x] 4.1 对照 design「改动文件与估计行数」，超出一倍的写明原因。验证：`verification.md` 有对照表。
 - [ ] 4.2 按本仓库 gates 跑写完代码后的检查：`/simplify` 引擎与测试、ruff、引擎测试。验证：完成汇报逐项列出结果。
 
 ## Workflow follow-up
