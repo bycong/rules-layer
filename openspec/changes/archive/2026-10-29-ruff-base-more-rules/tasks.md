@@ -16,4 +16,4 @@
 ## 4. 发版与升级
 
 - [x] 4.1 本仓库提交、打标签 `v0.2.0`、推送。验证：`git ls-remote --tags origin` 有 `v0.2.0`。
-- [ ] 4.2 Divination `.github/workflows/ci.yml` 两处 `ref: v0.1.0` 改为 `v0.2.0`，与 3.1 同一分支提交，推送并开 PR（叠在 #120 上）。验证：PR 的 CI 两项通过。
+- [x] 4.2 Divination `.github/workflows/ci.yml` 两处 `ref: v0.1.0` 改为 `v0.2.0`，与 3.1 同一分支提交，推送并开 PR（叠在 #120 上）。验证：PR 的 CI 两项通过。

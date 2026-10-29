@@ -7,7 +7,7 @@
 - [x] 1.3 建 `base/judgments.yaml`（三条通用规则，取自两个项目、逐字相同）与 `base/copy-lexicon.yaml`（通用短标签：从章字书词表挑不属于任何领域的标签）；引擎先读基础规则再读项目规则，同 id 以项目为准；短标签查两份词表。验证：脚本比对三条规则与两个项目原文逐字相同；通用词表逐条人工过目无领域词，结果记入 `verification.md`。
 - [x] 1.4 写 `judge/tests/test_engine.py`：合并两个项目测试中与项目无关的部分，另加配置解析、两种文案格式、同 id 覆盖、不在接入项目时报错、无 key 时 dry-run。验证：`uv run --project judge pytest` 全部通过。
 - [x] 1.5 写 `~/.config/jev-judge/env`（key 从章字书 `api/.env` 移过来，不进任何仓库）；在 rules-layer 与章字书根目录各跑一次 `jev-judge --change <已有 change>`。验证：两处都用 Jev 判定成功；`git grep TYPESAFE_API_KEY=` 在本仓库无结果。
-- [ ] 1.6 本仓库 `CLAUDE.md` 命令表：判断改为 `jev-judge`，ruff 与测试改为针对 `judge/`；`rules/copy-voice.md` 短标签一节改为「通用词表与项目词表一起查」；提交并打 tag `v0.2.0`。验证：本仓库新会话按命令表跑判断成功；`git ls-remote --tags origin` 有 `v0.2.0`。
+- [x] 1.6 本仓库 `CLAUDE.md` 命令表：判断改为 `jev-judge`，ruff 与测试改为针对 `judge/`；`rules/copy-voice.md` 短标签一节改为「通用词表与项目词表一起查」；提交并打 tag `v0.3.0`（`v0.2.0` 留给同期的 `ruff-base-more-rules`）。验证：本仓库新会话按命令表跑判断成功；`git ls-remote --tags origin` 有 `v0.3.0`。
 
 ## 2. 章字书迁移
 
@@ -34,5 +34,5 @@
 
 - 先归档 `shared-rules`，再归档本 change（`copy-voice` 的修改要求主规格已存在）。
 - 归档两个项目的 `adopt-jev-judge`。
-- 两个项目 CI 中的 rules-layer 版本改为 `v0.2.0`。
+- 两个项目 CI 中的 rules-layer 版本改为 `v0.3.0`。
 - 在 Notion rules-layer 项目页写下一篇编号学习文档。
