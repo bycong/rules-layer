@@ -10,10 +10,10 @@ Jev 判断层在两个项目各有一份：章字书 `api/app/ai/judge.py` 365 �
 
 - **合并成一个引擎**：以 Divination 的 `judge.py` 为底（已改用环境变量、复用连接、Risks 行接受两种写法、`report()` 不在推导式里做副作用），补回章字书的 `chat` target 与人工模式下的 `--dry-run` 行为（没有 key 也能看到要发给 Jev 的请求）。
 - **两种用法**：做成 Python 包 `jev-judge`。命令行用 `uv tool install -e` 装成全局命令，在任何项目根目录运行；需要 import 的项目（章字书对话评估集）加成可编辑路径依赖，现有 `load_rules`、`Rule`、`Judge`、`verdict_or_pending` 名字不变。
-- **项目差异改成配置**：仓库根目录取当前 git 根；文案文件、格式（嵌套 JSON / HTML 内 JS 对象）与语言由项目配置；项目禁词（如 Divination 的叙事禁词）移入项目自己的判断规则，引擎只保留通用禁用。
+- **项目差异改成配置**：仓库根目录取当前 git 根；文案文件、格式（嵌套 JSON / HTML 内 JS 对象）与语言写在项目的 `openspec/judge.yaml`；项目禁词（如 Divination 的叙事禁词）移入项目自己的判断规则，引擎只保留通用禁用。
 - **基础规则继承**：通用 3 条（写明不做什么、决策附备选、不做过度设计）随引擎提供，项目 `judgments.yaml` 继承后只写自己的红线。
 - **通用短标签词表**：本仓库提供一份不属于任何领域的短标签词表（重试、收起、关闭、加载中…），引擎同时查通用词表与项目词表；章字书随后从自己的词表移出通用词（Divination 词表里没有通用词）。
-- **key 一处存放**：`TYPESAFE_API_KEY` 从全局位置读取，不再每个项目各放一份。
+- **key 一处存放**：`TYPESAFE_API_KEY` 先读环境变量，再读 `~/.config/jev-judge/env`，不读项目里的 `.env`，不再每个项目各放一份。
 - **测试拆分**：阈值算法、lint、裁判选择这些通用测试随引擎走；回归用例 `judge_cases.yaml` 留在各自项目。
 - **迁移两个项目**：删除各自的 `judge.py` 副本；**BREAKING**（对这两个项目）：判断命令从 `python -m app.ai.judge` / `python -m app.rules.judge` 改为 `jev-judge`，共享 gates 中的判断命令同步改为 `jev-judge`。
 - 不做：改动任何判断规则的问题措辞、阈值，或 `JEV_MODEL` 版本；合并只动引擎代码，不动判断口径，两个项目迁移前后回归结果必须一致。
@@ -31,7 +31,7 @@ Jev 判断层在两个项目各有一份：章字书 `api/app/ai/judge.py` 365 �
 
 - `copy-voice`：短标签查词表从「只查项目词表」改为「通用词表与项目词表一起查」。
 
-（章字书 `openspec/specs/judgment-rules` 的契约随迁移改为引用 `judge-engine`，在章字书侧另开 change 处理。）
+（两个项目的 judgment-rules 与 code-style 规格写着各自的引擎路径与 Python 样板，随迁移在各自项目开 change `adopt-jev-judge` 修改。）
 
 ## Impact
 
