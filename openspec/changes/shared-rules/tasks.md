@@ -41,3 +41,10 @@
 - 归档章字书的 `adopt-shared-rules`。
 - 在 Notion rules-layer 项目页写下一篇编号学习文档。
 - 开始 `judge-engine` 的 specs。
+
+## 2026-10-29 补记：Divination 迁移未上线
+
+- 2.2–2.7 的两次提交（原 `4652751`、`bf4e39b`）只做在 Divination 本地分支 `feat/rules-layer-e2e` 上，从未推送；PR #118 合并时不含它们，Divination 的 main 仍是复制版规则。
+- 已移到 Divination 本地分支 `chore/adopt-rules-layer`（并补上主 specs 同步与 Purpose），本地验证：ruff、ESLint、离线测试、判断层均通过。
+- 未推送原因：Divination 有 CI（ruff + ESLint），CI 只检出本仓库，找不到 `../rules-layer`。本 change 的 proposal 把 CI 列为不做；章字书没有 CI，所以没暴露。
+- 待办：rules-layer 建 GitHub 远端后，Divination CI 增加检出步骤，再推 `chore/adopt-rules-layer`。负责人 2026-10-29 决定暂不接 CI。
