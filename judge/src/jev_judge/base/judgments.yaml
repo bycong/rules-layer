@@ -1,0 +1,31 @@
+# 通用判断规则：所有接入项目自动启用。项目 openspec/judgments.yaml 写同 id 的规则即以项目为准。
+# 三条取自章字书与 Divination 的 judgments.yaml（2026-10-29 两边逐字相同），问题与阈值不改；
+# enforces 按各项目自己的 CLAUDE.md 与 openspec/config.yaml 检查。
+
+- id: proposal-states-non-goals
+  target: proposal
+  enforces: L1/proposal
+  type: noul
+  question: 文档明确写明了本次哪些事情不做（Non-Goals），无论写成独立小节还是列在变更清单里
+  expect: true
+  thresholds: { pass: 0.7, block: 0.3 }
+
+- id: design-decisions-have-alternatives
+  target: design
+  enforces: L1/design
+  type: noul
+  question: Decisions 段落里的每一条决策都写明了被否决的备选方案和否决理由
+  expect: true
+  # block 起始为 0：现有三份 design 合规率仅六成，先只 review 不拦；跑满三个 change 后再评估收紧（design.md 决策 11）。
+  thresholds: { pass: 0.7, block: 0.0 }
+
+- id: design-no-speculative-extension
+  target: design
+  enforces: L0/Code style
+  type: noul
+  # 措辞经 2026-10-24 七份 design 对比选定：合成插件架构样本 p 0.08，五份正常 design 0.75–0.93；旧措辞把三份正常 design 压到 0.27–0.39。
+  question: 该设计在本次实现中额外构建了只为将来可能的需求服务、本次功能并不使用的抽象层、插件机制或配置项
+  expect: false
+  # 起始只 review 不拦（code-style design.md 决策 4）；满三个 change 零误拦后再定 block 阈值。
+  thresholds: { pass: 0.7, block: 0.0 }
+

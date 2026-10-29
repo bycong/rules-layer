@@ -1,0 +1,28 @@
+# Jev 判断引擎：各项目共用的一份，命令 jev-judge，库 jev_judge
+[project]
+name = "jev-judge"
+version = "0.2.0"
+description = "按 openspec/judgments.yaml 检查 change 产物与界面文案是否违反既定规矩"
+requires-python = ">=3.11"
+dependencies = [
+    "typesafe-sdk>=0.7.5",
+    "pyyaml>=6.0.3",
+    "pydantic>=2.12",
+    "json5>=0.9",
+]
+
+[project.scripts]
+jev-judge = "jev_judge.judge:cli"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+extend = "../lint/ruff-base.toml"   # 选用规则与复杂度来自 rules-layer，这里只写豁免
+
+[tool.ruff.lint.per-file-ignores]
+"src/jev_judge/judge.py" = ["T201"]   # 命令行入口，结果打印给人看
