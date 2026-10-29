@@ -1,0 +1,319 @@
+FFFFFFFF..F...........................                                   [100%]
+=================================== FAILURES ===================================
+___ test_regression_case[proposal-states-non-goals:/home-era-axis/design.md] ___
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '首测 0.99。design.md 有 Goals / Non-Goals 小节', 'rule': 'proposal-states-non-goals'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+___ test_regression_case[proposal-states-non-goals:ome-era-axis/proposal.md] ___
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/proposal.md', 'note': '行内写法「不做查字、不做碑帖页、不改书家页」，规矩接受行内（design.md 决策 9）', 'rule': 'proposal-states-non-goals'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/proposal.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/proposal.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+_ test_regression_case[design-decisions-have-alternatives:/home-era-axis/design.md] _
+
+case = {'expect': 'review', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '首测 0.08（六条决策只有三条写了备选）；该规则 block 阈值为 0，只 review', 'rule': 'design-decisions-have-alternatives'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+____ test_regression_case[design-no-runtime-yaml:/home-era-axis/design.md] _____
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '首测 0.02，翻转后 0.98。决策 1 原文含「不让前端或 API 直接读 YAML」，是引述陷阱', 'rule': 'design-no-runtime-yaml'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+___ test_regression_case[design-no-deferred-infra:/home-era-axis/design.md] ____
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '首测 0.02', 'rule': 'design-no-deferred-infra'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+_ test_regression_case[design-no-pages-for-unlisted:/home-era-axis/design.md] __
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '首测 0.03。设计明确写「未收录者不产生页面」', 'rule': 'design-no-pages-for-unlisted'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+_____ test_regression_case[design-svg-canonical:/home-era-axis/design.md] ______
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '首测未覆盖；该设计不涉及单字存储，应为「否」', 'rule': 'design-svg-canonical'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+_ test_regression_case[design-no-speculative-extension:/home-era-axis/design.md] _
+
+case = {'expect': 'pass', 'file': 'openspec/changes/home-era-axis/design.md', 'note': '只做当前要的；p 0.79', 'rule': 'design-no-speculative-extension'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/home-era-axis/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+_ test_regression_case[design-no-speculative-extension:ges/code-style/design.md] _
+
+case = {'expect': 'pass', 'file': 'openspec/changes/code-style/design.md', 'note': '本 change 自身；归档后路径要改到 archive', 'rule': 'design-no-speculative-extension'}
+
+    @pytest.mark.skipif(not judge.settings.typesafe_api_key, reason="无 TYPESAFE_API_KEY，跳过 Jev 回归")
+    @pytest.mark.parametrize("case", CASES, ids=[_case_id(c) for c in CASES])
+    def test_regression_case(case):
+        rule = RULES[case["rule"]]
+>       state = case.get("text") or (judge.ROOT / case["file"]).read_text(encoding="utf-8")
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_judge.py:153: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('~/AiDevelopProjects/zhangzishu/openspec/changes/code-style/design.md')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '~/AiDevelopProjects/zhangzishu/openspec/changes/code-style/design.md'
+
+/opt/homebrew/Cellar/python@3.12/3.12.13_2/Frameworks/Python.framework/Versions/3.12/lib/python3.12/pathlib.py:1013: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_judge.py::test_regression_case[proposal-states-non-goals:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[proposal-states-non-goals:ome-era-axis/proposal.md]
+FAILED tests/test_judge.py::test_regression_case[design-decisions-have-alternatives:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[design-no-runtime-yaml:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[design-no-deferred-infra:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[design-no-pages-for-unlisted:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[design-svg-canonical:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[design-no-speculative-extension:/home-era-axis/design.md]
+FAILED tests/test_judge.py::test_regression_case[design-no-speculative-extension:ges/code-style/design.md]
+9 failed, 29 passed, 192 deselected in 15.62s

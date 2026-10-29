@@ -109,7 +109,6 @@ Divination 是共享版的来源，文案档位描述不变，迁移只改引用
 | | `backend/ruff.toml` | −3 +2 |
 | | `frontend/eslint.config.mjs` | −3 +3 |
 | | `openspec/judgments.yaml` | ±3 |
-| | `openspec/copy-lexicon.yaml` | −15 |
 | | `openspec/changes/rules-layer/specs/{code-style,copy-voice}/spec.md` | ±20 |
 | 章字书 | `CLAUDE.md` | −40 +20 |
 | | `api/pyproject.toml` | −4 +1 |

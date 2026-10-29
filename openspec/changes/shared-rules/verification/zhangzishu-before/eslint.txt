@@ -1,0 +1,5 @@
+
+> web@0.1.0 lint ~/AiDevelopProjects/zhangzishu/web
+> eslint
+
+eslint exit 0

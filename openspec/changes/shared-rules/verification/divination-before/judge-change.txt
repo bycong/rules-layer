@@ -1,0 +1,12 @@
+
+## proposal.md
+
+## design.md
+  pass   lint/design                                Risks 格式与回滚说明齐全
+
+## tasks.md
+
+## specs/frontend-interaction-checklist/spec.md
+
+合计：pass 1 / review 0 / block 0
+exit 0

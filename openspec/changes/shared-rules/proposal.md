@@ -14,7 +14,7 @@
   - 可选步骤：每完成一个阶段，把过程整理成零基础学习文档同步到 Notion；项目在自己的 `CLAUDE.md` 写明 Notion 落点才启用。
 - **产物写法（L1）**：`openspec/config.yaml` 的 rules 共享基础版一份。OpenSpec 配置不能引用外部文件，所以由项目照共享版写入，差异交给 `rules-layer-setup` 的巡检发现。
 - **本仓库自用**：新建本仓库的 `CLAUDE.md`，引入上述共享规矩与 gates，本仓库之后的 change 按它执行。
-- **迁移两个已落地项目的文字部分**：章字书与 Divination 的 Code style 正文、gates 正文、ruff 基础规则、文案标准中的共享部分改为引用；Divination 词表清掉照抄带入的书法领域词。判断命令本次不动，仍用各自的 `judge.py`；两个项目判断规则中的文案档位描述先手动改成共享版文字。规矩正文统一用中文。
+- **迁移两个已落地项目的文字部分**：章字书与 Divination 的 Code style 正文、gates 正文、ruff 基础规则、文案标准中的共享部分改为引用。判断命令本次不动，仍用各自的 `judge.py`；两个项目判断规则中的文案档位描述先手动改成共享版文字。规矩正文统一用中文。
 - 不做：判断引擎的合并与迁移（`judge-engine` 做）。
 - 不做：搭建巡检 skill 与新项目试跑（`rules-layer-setup` 做）。
 - 不做：其他项目（Klarpix、Slidewand、yybu 等）的接入。
@@ -40,5 +40,5 @@
 
 - 新增：本仓库 `CLAUDE.md`、代码规矩与落法文件、ruff / ESLint 基础配置、文案标准、gates 文件、产物写法基础版。
 - 章字书：`CLAUDE.md` 改为引用（`web/CLAUDE.md` 的 React 落法不动）；`api/pyproject.toml` 与 `web/eslint.config.mjs` 改为继承；`openspec/judgments.yaml` 的文案档位描述改为共享版文字并重跑文案回归；code-style 与 copy-voice 两份已归档规格改为引用共享标准（在章字书侧另开 change）。
-- Divination：`CLAUDE.md` 改为引用（`frontend/CLAUDE.md` 的单文件落法不动）；`backend/ruff.toml` 与 `frontend/eslint.config.mjs` 改为继承；`openspec/copy-lexicon.yaml` 清掉书法领域词；`openspec/judgments.yaml` 的文案档位描述改为共享版文字；尚未归档的 `rules-layer` change 中的 code-style 与 copy-voice 规格改为引用共享标准。
+- Divination：`CLAUDE.md` 改为引用（`frontend/CLAUDE.md` 的单文件落法不动）；`backend/ruff.toml` 与 `frontend/eslint.config.mjs` 改为继承；`openspec/judgments.yaml` 的文案档位描述改为共享版文字（词表核实只含本项目的词，不改）；尚未归档的 `rules-layer` change 中的 code-style 与 copy-voice 规格改为引用共享标准。
 - 两个项目的 `CLAUDE.md` 读取 `@../rules-layer/...`，依赖本仓库与项目处于同一父目录。
