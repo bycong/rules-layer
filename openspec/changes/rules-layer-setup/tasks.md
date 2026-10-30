@@ -2,14 +2,14 @@
 
 ## 1. 识别与巡检脚本
 
-- [ ] 1.1 写 `skills/rules-layer/check.py`：识别表（语言与包管理、后端与前端目录、openspec、归档数、CI 与钉的 rules-layer 版本、未提交改动、各层状态）与 design 决策 5 的七项巡检，最后一行输出下一阶段（一 / 二 / 三 / 巡检 / 先 openspec init）。只读，`uv run --script` 运行。验证：在三个项目各跑一次能输出完整报告；运行前后 `git status` 不变。
-- [ ] 1.2 写 `skills/rules-layer/tests/test_check.py`：在临时项目里覆盖无 openspec、未接入、已接入但缺判断层、全部装好、各项巡检命中与不命中、CI 版本落后。验证：`uv run --with pytest --with pyyaml pytest skills/rules-layer/tests` 全部通过；ruff 通过。
+- [x] 1.1 写 `skills/rules-layer/check.py`：识别表（语言与包管理、后端与前端目录、openspec、归档数、CI 与钉的 rules-layer 版本、未提交改动、各层状态）与 design 决策 5 的七项巡检，最后一行输出下一阶段（一 / 二 / 三 / 巡检 / 先 openspec init）。只读，`uv run --script` 运行。验证：在三个项目各跑一次能输出完整报告；运行前后 `git status` 不变。
+- [x] 1.2 写 `skills/rules-layer/tests/test_check.py`：在临时项目里覆盖无 openspec、未接入、已接入但缺判断层、全部装好、各项巡检命中与不命中、CI 版本落后。验证：`uv run --with pytest --with pyyaml pytest skills/rules-layer/tests` 全部通过；ruff 通过。
 
 ## 2. skill 与模板
 
-- [ ] 2.1 写 `skills/rules-layer/SKILL.md`：先跑 `check.py`；按下一阶段执行；动手前列文件等确认；红线与规则候选注明出处、逐条确认；不提交；以汇报结束。验证：对照规格十条需求逐条找到对应步骤，记入 `verification.md`。
-- [ ] 2.2 写 `templates/`：`CLAUDE.md` 骨架、`ruff.toml`、`judge.yaml`、`judgments.yaml` 骨架、`judge_cases.yaml` 骨架。验证：模板里 `grep` 不到任何项目名、领域词或本机路径。
-- [ ] 2.3 写本仓库 `README.md`（目录、安装 skill 与 `jev-judge`、配置 key、启用提交前钩子）；建软链接 `~/.claude/skills/rules-layer`。验证：新开会话的可用 skill 列表里出现 `rules-layer`。
+- [x] 2.1 写 `skills/rules-layer/SKILL.md`：先跑 `check.py`；按下一阶段执行；动手前列文件等确认；红线与规则候选注明出处、逐条确认；不提交；以汇报结束。验证：对照规格十条需求逐条找到对应步骤，记入 `verification.md`。
+- [x] 2.2 写 `templates/`：`CLAUDE.md` 骨架、`ruff.toml`、`judge.yaml`、`judgments.yaml` 骨架、`judge_cases.yaml` 骨架。验证：模板里 `grep` 不到任何项目名、领域词或本机路径。
+- [x] 2.3 写本仓库 `README.md`（目录、安装 skill 与 `jev-judge`、配置 key、启用提交前钩子）；建软链接 `~/.claude/skills/rules-layer`。验证：新开会话的可用 skill 列表里出现 `rules-layer`。
 
 ## 3. 只读试跑
 

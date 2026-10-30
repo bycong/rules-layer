@@ -1,0 +1,5 @@
+# skill 辅助脚本的 ruff 配置：选用规则与复杂度来自本仓库基础配置，这里只写豁免
+extend = "../../lint/ruff-base.toml"
+
+[lint.per-file-ignores]
+"check.py" = ["T201"]   # 命令行入口，报告打印给人与 skill 看

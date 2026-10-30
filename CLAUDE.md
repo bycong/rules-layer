@@ -8,6 +8,7 @@ AiDevelopProjects 下各项目共用的规则层源头。共享的规矩只住�
 - `lint/`：给工具读的基础配置。`ruff-base.toml`、`eslint-base.mjs`。
 - `openspec-base/`：给项目照写的产物写法基础版 `artifact-rules.yaml`。
 - `judge/`：Jev 判断引擎 `jev-judge`（命令与库），含通用判断规则与通用短标签词表。
+- `skills/rules-layer/`：`/rules-layer` skill（`SKILL.md`、识别与巡检脚本 `check.py`、模板）。安装与用法见 `README.md`。
 - `openspec/`：本仓库自己的 change。
 
 ## 不可违反的约定
@@ -33,8 +34,8 @@ AiDevelopProjects 下各项目共用的规则层源头。共享的规矩只住�
 | 名称 | 命令 |
 |---|---|
 | 判断 | `jev-judge --change <name>`（本仓库没有项目规则，只跑三条通用规则） |
-| ruff | `cd judge && uv run ruff check src tests` |
-| 测试 | `cd judge && uv run pytest`（引擎测试，不联网） |
+| ruff | `cd judge && uv run ruff check src tests`；`cd skills/rules-layer && uvx ruff check .` |
+| 测试 | `cd judge && uv run pytest`（引擎测试，不联网）；`uv run --python 3.12 --with pytest --with pyyaml pytest skills/rules-layer/tests`（识别与巡检脚本） |
 | 前端 lint | 无前端，跳过 |
 | 文案检查 | 无界面文案，跳过 |
 

@@ -1,0 +1,5 @@
+# 代码写法的机械部分（CLAUDE.md「Code style」）。选用规则与复杂度继承 rules-layer 基础配置；这里只写豁免并注明原因，不在代码里逐行 noqa。
+extend = "〈从本文件所在目录到 rules-layer 的相对路径〉/lint/ruff-base.toml"
+
+[lint.per-file-ignores]
+# "〈脚本目录〉/**" = ["T201"]   # 〈原因，例如：命令行脚本用 print 输出进度〉
