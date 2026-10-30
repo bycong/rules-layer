@@ -202,6 +202,12 @@ def test_ci_pinned_to_latest_is_fine(joined, monkeypatch):
     assert dict(report.facts)["CI"].endswith(check.latest_tag())
 
 
+def test_uncommitted_new_files_are_seen(bare, monkeypatch):
+    _write(bare, "ruff.toml", 'extend = "../rules-layer/lint/ruff-base.toml"\n')      # 新建未提交
+    report, _ = _run(bare, monkeypatch)
+    assert report.layers["阶段一 lint 继承"] == []
+
+
 def test_check_is_read_only(joined, monkeypatch):
     before = subprocess.run(["git", "status", "--porcelain"], cwd=joined, capture_output=True, text=True).stdout
     _run(joined, monkeypatch)

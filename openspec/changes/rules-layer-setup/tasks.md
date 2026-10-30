@@ -17,8 +17,8 @@
 
 ## 4. boyangcong 阶段一
 
-- [ ] 4.1 在 boyangcong 运行 `/rules-layer`：识别表、阶段一计划、红线候选（注明出处）交用户确认后写 `CLAUDE.md`、`ruff.toml`、`openspec/config.yaml` 的 `rules`。验证：`grep -c "^## Code style" CLAUDE.md` 为 1；`openspec instructions proposal --change <任一>` 含「不做」；`ruff check` 能解析继承配置，报出的问题列进汇报；用户原有 28 个未提交改动不变；不产生提交。
-- [ ] 4.2 再跑一次 `check.py`，确认 boyangcong 下一阶段变为阶段二（已归档 5 个，判断层待用户确认规则）。验证：最后一行输出「阶段二」。
+- [x] 4.1 在 boyangcong 运行 `/rules-layer`：识别表、阶段一计划、红线候选（注明出处）交用户确认后写 `CLAUDE.md`、`ruff.toml`、`openspec/config.yaml` 的 `rules`。验证：`grep -c "^## Code style" CLAUDE.md` 为 1；`openspec instructions proposal --change <任一>` 含「不做」；`ruff check` 能解析继承配置，报出的问题列进汇报；用户原有 28 个未提交改动不变；不产生提交。
+- [x] 4.2 再跑一次 `check.py`，确认 boyangcong 下一阶段变为阶段二（已归档 5 个，判断层待用户确认规则）。验证：最后一行输出「阶段二」。
 
 ## 5. 收尾
 

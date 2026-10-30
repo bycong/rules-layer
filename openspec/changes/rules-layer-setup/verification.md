@@ -47,3 +47,23 @@
 | Divination | 各层已装好；产物写法 `rules.design` 的 Risks 条目被改写；CI 钉 `v0.3.0` 落后 `v0.3.1`，差异只有 `judge/src/jev_judge/judge.py`；下一阶段巡检 | `config.yaml` 在 Risks 基础条目同一行末尾追加了兼容说明（应另起一条追加）；`ci.yml` 两个 job 都钉 `v0.3.0`；`v0.3.0..v0.3.1` 的共享文件差异确为 `judge.py`（/simplify 精简，行为不变），一致 |
 
 两处 Divination 的偏离由用户决定是否处理：Risks 条目改为「基础条目原样 + 另起一条追加说明」；CI 升到 `v0.3.1`。
+
+## 4. boyangcong 阶段一
+
+通过 `/rules-layer` skill 运行（按 `SKILL.md` 步骤）：识别 → 下一阶段「阶段一」→ 列计划 → 红线候选（四条，均出自 `openspec/config.yaml` 的 context）交用户确认，用户四条全选 → 写入。
+
+改动（均未提交）：新增 `CLAUDE.md`（简介、四条红线、两节引入、命令表）、`ruff.toml`（`extend` 基础配置；`build_notes.py`、`review_cli.py` 两个命令行入口豁免 T201 并注明原因）；修改 `openspec/config.yaml`（保留 context，追加 `rules` 段）。
+
+| 验证 | 结果 |
+|---|---|
+| `grep -c "^## Code style" CLAUDE.md` | 1 |
+| `openspec instructions proposal --change geo-audit-service` 含「不做」 | 是 |
+| ruff 能解析继承配置 | 能；报出的 I、B 类问题只有基础配置里才有，证明继承生效 |
+| 用户原有 29 个未提交改动 | 指纹前后相同 |
+| 提交 | 无（HEAD 仍为 `41586b9`） |
+
+ruff 报出、只列不改的问题（9 条）：`bycong/form/app.py` 一处过宽 `except Exception`（BLE001）、两处 `print`（T201，表单服务不是命令行入口）；`bycong/form/tests/test_app.py` 一处注释掉的代码（ERA001）；`build_notes.py` 的 `parse_note` 复杂度 18、一处未用的循环变量（B007）、import 排序；`test_notes.py` 的 `handle_starttag` 复杂度 12、import 排序。
+
+### 4.2 再次识别
+
+首次复跑时脚本仍报「有 Python 代码但没有 ruff 配置」：`check.py` 只看已跟踪文件，而 skill 规定不提交，新建的 `ruff.toml` 看不到。改为已跟踪 + 未被 `.gitignore` 忽略的新文件（三个项目均确认不会扫进 `.venv`、`node_modules`），加测试一条，测试 16 条通过。复跑：三层均已装好，下一阶段「阶段二（已归档 5 个，用户确认候选规则后可进入阶段三）」。章字书、Divination 复跑结论不变（巡检）。

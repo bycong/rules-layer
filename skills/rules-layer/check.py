@@ -39,8 +39,8 @@ def git(root: Path, *args: str) -> str:
 
 
 def tracked(root: Path) -> list[str]:
-    """已跟踪的文件，排除虚拟环境与依赖目录带来的噪音。"""
-    return git(root, "ls-files").splitlines()
+    """已跟踪的文件，加上未被 .gitignore 忽略的新文件（skill 不提交，刚写的文件也要看得到）；虚拟环境与依赖目录靠 .gitignore 排除。"""
+    return git(root, "ls-files", "--cached", "--others", "--exclude-standard").splitlines()
 
 
 def _yaml(path: Path, default):
