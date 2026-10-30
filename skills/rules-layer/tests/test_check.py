@@ -14,8 +14,8 @@ check = importlib.util.module_from_spec(SPEC)
 sys.modules["check"] = check                                # dataclass 解析注解时要在 sys.modules 里找到本模块
 SPEC.loader.exec_module(check)
 
-BASE_RULES = yaml.safe_load(check.BASE_ARTIFACTS.read_text(encoding="utf-8"))["rules"]
-BASE_JUDGMENTS = yaml.safe_load(check.BASE_JUDGMENTS.read_text(encoding="utf-8"))
+BASE_RULES = check._yaml(check.BASE_ARTIFACTS, {})["rules"]
+BASE_JUDGMENTS = check._yaml(check.BASE_JUDGMENTS, [])
 
 CLAUDE_OK = """# x
 
@@ -48,12 +48,7 @@ def _commit(root: Path) -> None:
 
 def _run(root: Path, monkeypatch) -> tuple[check.Report, str]:
     monkeypatch.chdir(root)
-    files = check.tracked(root)
-    report = check.Report()
-    check.identify(root, files, report)
-    check.layers(root, files, report)
-    check.audit(root, files, report)
-    return report, check.next_stage(root, report)
+    return check.collect(root)
 
 
 def _archive(root: Path, n: int) -> None:
@@ -209,7 +204,7 @@ def test_uncommitted_new_files_are_seen(bare, monkeypatch):
 
 
 def test_check_is_read_only(joined, monkeypatch):
-    before = subprocess.run(["git", "status", "--porcelain"], cwd=joined, capture_output=True, text=True).stdout
+    before = check.git(joined, "status", "--porcelain")
     _run(joined, monkeypatch)
-    after = subprocess.run(["git", "status", "--porcelain"], cwd=joined, capture_output=True, text=True).stdout
+    after = check.git(joined, "status", "--porcelain")
     assert before == after

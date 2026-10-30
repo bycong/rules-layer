@@ -22,8 +22,8 @@
 
 ## 5. 收尾
 
-- [ ] 5.1 Notion「新项目规则层搭建手册」开头加说明，指向 `/rules-layer` 与本仓库 README。验证：页面开头可见该说明。
-- [ ] 5.2 对照 design 估计行数；按本仓库 gates 跑 `/simplify`、ruff、测试。验证：`verification.md` 有对照表与各项结果。
+- [x] 5.1 Notion「新项目规则层搭建手册」开头加说明，指向 `/rules-layer` 与本仓库 README。验证：页面开头可见该说明。
+- [x] 5.2 对照 design 估计行数；按本仓库 gates 跑 `/simplify`、ruff、测试。验证：`verification.md` 有对照表与各项结果。
 
 ## Workflow follow-up
 

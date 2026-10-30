@@ -67,3 +67,28 @@ ruff 报出、只列不改的问题（9 条）：`bycong/form/app.py` 一处过�
 ### 4.2 再次识别
 
 首次复跑时脚本仍报「有 Python 代码但没有 ruff 配置」：`check.py` 只看已跟踪文件，而 skill 规定不提交，新建的 `ruff.toml` 看不到。改为已跟踪 + 未被 `.gitignore` 忽略的新文件（三个项目均确认不会扫进 `.venv`、`node_modules`），加测试一条，测试 16 条通过。复跑：三层均已装好，下一阶段「阶段二（已归档 5 个，用户确认候选规则后可进入阶段三）」。章字书、Divination 复跑结论不变（巡检）。
+
+## 5. 收尾
+
+### 5.1 Notion
+
+「新项目规则层搭建手册」开头加了说明：步骤已做成 `/rules-layer`，共享部分在公开仓库 bycong/rules-layer，手册保留作原理说明，「复制 judge.py、复制规矩正文」等步骤已被取代。
+
+### 5.2 行数与写完代码后的检查
+
+| 文件 | 估计 | 实际 | 说明 |
+|---|---|---|---|
+| `skills/rules-layer/SKILL.md` | +120 | +73 | |
+| `skills/rules-layer/check.py` | +220 | +294 | 未超一倍；含识别表、四层、五项巡检与 `collect()` |
+| `skills/rules-layer/tests/test_check.py` | +150 | +210 | |
+| `skills/rules-layer/templates/`（5 个） | +80 | +67 | |
+| `README.md` | +40 | +60 | |
+| `skills/rules-layer/ruff.toml` | 未估计 | +6 | 脚本目录需要自己的 ruff 配置（本仓库根目录没有） |
+| boyangcong `CLAUDE.md` | +50 | +37 | 未提交 |
+| boyangcong `ruff.toml` | +6 | +6 | 未提交 |
+| boyangcong `openspec/config.yaml` | +15 | +16 | 未提交 |
+
+1. `/simplify`：对 `check.py` 与测试跑四路审查。采纳：识别、各层、巡检、下一阶段抽成 `collect()`，`main` 与测试共用（测试原来抄了一份流程）；`archived()`、`ci_refs()` 各只算一次；`has_python()` 合并两处判断；锁文件表提成常量 `LOCKFILES`；CI 一行与 ESLint 一行拆开；引擎副本改用 `git grep` 找，不再逐个读 .py 文件；测试改用脚本自己的 `_yaml`、`git`。跳过：`config.yaml` 读两次（几个小文件，不值得改签名）；阶段名兼作逻辑键（单文件、测试已钉住）；CI 正则要求 `ref:` 紧跟 `repository:`、`def load_rules` 作为副本特征、写死 `bycong/rules-layer`（三个项目都符合，第 9 条不为没有调用方的情况加配置）。
+2. ruff：`skills/rules-layer` 通过。
+3. 测试：16 条通过。精简前后在章字书、Divination、boyangcong 的输出逐字相同（第一次对比时把旧脚本放在临时目录，它按自身位置找不到基础文件，造成假差异；放回原目录后一致）。
+4. 前端 lint、文案检查：无，跳过。
