@@ -13,7 +13,7 @@
 
 ## 3. 只读试跑
 
-- [ ] 3.1 在章字书、Divination 跑巡检。验证：两项目工作区运行前后不变；每项结论与人工核对一致（Divination CI `v0.3.0` 落后于 `v0.3.1` 应被报出），记入 `verification.md`，不一致处修脚本后重跑。
+- [x] 3.1 在章字书、Divination 跑巡检。验证：两项目工作区运行前后不变；每项结论与人工核对一致（Divination CI `v0.3.0` 落后于 `v0.3.1` 应被报出），记入 `verification.md`，不一致处修脚本后重跑。
 
 ## 4. boyangcong 阶段一
 

@@ -36,3 +36,14 @@
 ### 2.3 README 与软链接
 
 新建本仓库 `README.md`（目录、安装 skill / `jev-judge` / key / 钩子、接入与巡检、CI 写法）。`~/.claude/skills/rules-layer` 软链接到本仓库 `skills/rules-layer`；新开非交互会话确认可用 skill 列表里有 `rules-layer`。本仓库 `CLAUDE.md` 命令表补上 skill 脚本的 ruff 与测试命令。
+
+## 3. 只读试跑
+
+章字书与 Divination 运行 `check.py` 前后工作区不变。逐项人工核对：
+
+| 项目 | 脚本结论 | 人工核对 |
+|---|---|---|
+| 章字书 | 各层已装好；巡检全部一致；下一阶段巡检 | 三条通用规则已从 `judgments.yaml` 删去、15 个通用词已移出词表、无 CI，一致 |
+| Divination | 各层已装好；产物写法 `rules.design` 的 Risks 条目被改写；CI 钉 `v0.3.0` 落后 `v0.3.1`，差异只有 `judge/src/jev_judge/judge.py`；下一阶段巡检 | `config.yaml` 在 Risks 基础条目同一行末尾追加了兼容说明（应另起一条追加）；`ci.yml` 两个 job 都钉 `v0.3.0`；`v0.3.0..v0.3.1` 的共享文件差异确为 `judge.py`（/simplify 精简，行为不变），一致 |
+
+两处 Divination 的偏离由用户决定是否处理：Risks 条目改为「基础条目原样 + 另起一条追加说明」；CI 升到 `v0.3.1`。
